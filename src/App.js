@@ -6,7 +6,7 @@ function App() {
   const [stockData, setStockData] = useState(null);
 
   const fetchStockData = async () => {
-    const apiKey = 'demo'; // Replace with your real API key
+    const apiKey = 'MO9C2R94X2PCVFFP'; // Replace with your real API key
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
 
     try {
