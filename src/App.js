@@ -8,7 +8,7 @@ function App() {
   const [macroData, setMacroData] = useState({});
 
   const fetchStockData = async () => {
-    const apiKey = 'QMJHX5F5AHAIXFUN'; // Replace with your stock API key
+    const apiKey = 'QMJHX5F5AHAIXFUN';
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
 
     try {
@@ -28,7 +28,7 @@ function App() {
   };
 
   const fetchEconomicData = async (seriesId) => {
-    const apiKey = '79c85c2228190506c3343cd7c5b6651c '; // Replace with your FRED API key
+    const apiKey = '79c85c2228190506c3343cd7c5b6651c';
     const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json&sort_order=desc&limit=1`;
 
     try {
@@ -56,41 +56,56 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Stock Insight Builder</h1>
-      <p>Enter a stock symbol to get the latest market data and explore related economic indicators.</p>
-      <input
-        type="text"
-        placeholder="Enter stock symbol (e.g. AAPL)"
-        value={symbol}
-        onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-      />
-      <button onClick={fetchStockData}>Get Stock Info</button>
+      <header className="header">
+        <h1>📈 Stock Insight Builder</h1>
+        <p>Analyze stocks and see how they relate to the economy.</p>
+      </header>
+
+      <section className="search-section">
+        <input
+          type="text"
+          placeholder="Enter stock symbol (e.g. AAPL)"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
+        />
+        <button onClick={fetchStockData}>🔍 Get Info</button>
+      </section>
 
       {error && <p className="error">{error}</p>}
 
       {stockData && (
-        <div className="stock-info">
-          <h2>{symbol} Details</h2>
-          <p><strong>Symbol:</strong> {stockData["01. symbol"]}</p>
-          <p><strong>Price:</strong> ${stockData["05. price"]}</p>
-          <p><strong>Open:</strong> ${stockData["02. open"]}</p>
-          <p><strong>High:</strong> ${stockData["03. high"]}</p>
-          <p><strong>Low:</strong> ${stockData["04. low"]}</p>
-          <p><strong>Previous Close:</strong> ${stockData["08. previous close"]}</p>
-          <p><strong>Change:</strong> {stockData["09. change"]}</p>
-          <p><strong>Change Percent:</strong> {stockData["10. change percent"]}</p>
-          <p><strong>Volume:</strong> {stockData["06. volume"]}</p>
-          <p><strong>Latest Trading Day:</strong> {stockData["07. latest trading day"]}</p>
-        </div>
+        <section className="card">
+          <h2>{symbol} Overview</h2>
+          <ul>
+            <li><strong>Price:</strong> ${stockData["05. price"]}</li>
+            <li><strong>Open:</strong> ${stockData["02. open"]}</li>
+            <li><strong>High:</strong> ${stockData["03. high"]}</li>
+            <li><strong>Low:</strong> ${stockData["04. low"]}</li>
+            <li><strong>Previous Close:</strong> ${stockData["08. previous close"]}</li>
+            <li><strong>Change:</strong> {stockData["09. change"]} ({stockData["10. change percent"]})</li>
+            <li><strong>Volume:</strong> {stockData["06. volume"]}</li>
+            <li><strong>Latest Trading Day:</strong> {stockData["07. latest trading day"]}</li>
+          </ul>
+          <a
+            href={`https://www.marketwatch.com/investing/stock/${symbol}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="info-link"
+          >
+            📰 More info & news on {symbol} at MarketWatch
+          </a>
+        </section>
       )}
 
-      <div className="macro-info">
-        <h2>Macroeconomic Indicators</h2>
-        <p><strong>Inflation (CPI):</strong> {macroData.inflation}</p>
-        <p><strong>Unemployment Rate:</strong> {macroData.unemployment}%</p>
-        <p><strong>GDP:</strong> {macroData.gdp} (Billions USD)</p>
-        <p><strong>Federal Funds Rate:</strong> {macroData.interestRate}%</p>
-      </div>
+      <section className="card">
+        <h2>📊 Macroeconomic Indicators</h2>
+        <ul>
+          <li><strong>Inflation (CPI):</strong> {macroData.inflation}</li>
+          <li><strong>Unemployment Rate:</strong> {macroData.unemployment}%</li>
+          <li><strong>GDP:</strong> {macroData.gdp} (Billions USD)</li>
+          <li><strong>Federal Funds Rate:</strong> {macroData.interestRate}%</li>
+        </ul>
+      </section>
     </div>
   );
 }
