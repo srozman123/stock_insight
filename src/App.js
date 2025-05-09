@@ -8,7 +8,7 @@ function App() {
   const [macroData, setMacroData] = useState({});
 
   const fetchStockData = async () => {
-    const apiKey = 'process.env.REACT_APP_STOCK_API_KEY';
+    const apiKey = 'QMJHX5F5AHAIXFUN';
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
 
     try {
